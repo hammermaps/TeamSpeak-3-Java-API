@@ -28,8 +28,11 @@ package com.github.theholywaffle.teamspeak3.api.exception;
 
 import com.github.theholywaffle.teamspeak3.api.wrapper.QueryError;
 
+import java.io.Serial;
+
 public class TS3CommandFailedException extends TS3Exception {
 
+	@Serial
 	private static final long serialVersionUID = 8179203326662268882L;
 
 	private final QueryError queryError;
@@ -40,9 +43,10 @@ public class TS3CommandFailedException extends TS3Exception {
 	}
 
 	private static String buildMessage(QueryError error, String cmdName) {
-		final StringBuilder msg = new StringBuilder();
-		msg.append("A \"").append(cmdName).append("\" command returned with a server error.\n");
-		msg.append(">> ").append(error.getMessage()).append(" (ID ").append(error.getId()).append(')');
+		// Java 21: String.formatted() für den fixen Teil der Meldung
+		final StringBuilder msg = new StringBuilder(
+				"A \"%s\" command returned with a server error.\n>> %s (ID %d)".formatted(
+						cmdName, error.getMessage(), error.getId()));
 
 		final String extra = error.getExtraMessage();
 		if (extra != null && !extra.isEmpty()) {
