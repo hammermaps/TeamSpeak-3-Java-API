@@ -281,38 +281,6 @@ public class TS3ApiAsync {
 		return executeAndReturnError(cmd);
 	}
 
-	/**
-	 * Adds a specified permission to a channel.
-	 *
-	 * @deprecated
-	 * This method is no longer preferred for adding permissions to a client.
-	 * <p>
-	 * Use {@link TS3ApiAsync#addClientPermission(int, IPermissionType, int, boolean)}
-	 * or {@link TS3ApiAsync#addClientPermission(int, BPermissionType, boolean, boolean)} instead.
-	 * </p>
-	 *
-	 * @param clientDBId
-	 * 		the database ID of the client to grant the permission
-	 * @param permName
-	 * 		the name of the permission to grant
-	 * @param value
-	 * 		the numeric value of the permission (or for boolean permissions: 1 = true, 0 = false)
-	 * @param skipped
-	 * 		if set to {@code true}, the permission will not be overridden by channel group permissions
-	 *
-	 * @return a future to track the progress of this command
-	 *
-	 * @throws TS3CommandFailedException
-	 * 		if the execution of a command fails
-	 * @querycommands 1
-	 * @see Client#getDatabaseId()
-	 * @see Permission
-	 */
-	@Deprecated
-	public CommandFuture<Void> addClientPermission(int clientDBId, String permName, int value, boolean skipped) {
-		Command cmd = PermissionCommands.clientAddPerm(clientDBId, permName, value, skipped);
-		return executeAndReturnError(cmd);
-	}
 
 	/**
 	 * Adds a specified permission to a client.
@@ -1214,35 +1182,6 @@ public class TS3ApiAsync {
 	 */
 	public CommandFuture<Void> deleteChannelPermission(int channelId, String permName) {
 		Command cmd = PermissionCommands.channelDelPerm(channelId, permName);
-		return executeAndReturnError(cmd);
-	}
-
-	/**
-	 * Removes a permission from a client.
-	 *
-	 * @deprecated
-	 * This method is no longer preferred for removing permissions from a client.
-	 * <p>
-	 * Use {@link TS3ApiAsync#deleteClientPermission(int, IPermissionType)}
-	 * or {@link TS3ApiAsync#deleteClientPermission(int, BPermissionType)} instead.
-	 * </p>
-	 *
-	 * @param clientDBId
-	 * 		the database ID of the client
-	 * @param permName
-	 * 		the name of the permission to revoke
-	 *
-	 * @return a future to track the progress of this command
-	 *
-	 * @throws TS3CommandFailedException
-	 * 		if the execution of a command fails
-	 * @querycommands 1
-	 * @see Client#getDatabaseId()
-	 * @see Permission#getName()
-	 */
-	@Deprecated
-	public CommandFuture<Void> deleteClientPermission(int clientDBId, String permName) {
-		Command cmd = PermissionCommands.clientDelPerm(clientDBId, permName);
 		return executeAndReturnError(cmd);
 	}
 
@@ -5632,12 +5571,9 @@ public class TS3ApiAsync {
 	 * @return whether {@code exception} is a {@code TS3CommandFailedException} with error ID {@code errorId}.
 	 */
 	private static boolean isQueryError(TS3Exception exception, int errorId) {
-		if (exception instanceof TS3CommandFailedException) {
-			TS3CommandFailedException cfe = (TS3CommandFailedException) exception;
-			return (cfe.getError().getId() == errorId);
-		} else {
-			return false;
-		}
+		// Java 21: Pattern Matching für instanceof – kein separater Cast mehr nötig
+		return exception instanceof TS3CommandFailedException cfe
+				&& cfe.getError().getId() == errorId;
 	}
 
 	/**
