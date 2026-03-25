@@ -26,6 +26,7 @@ package com.github.theholywaffle.teamspeak3.commands;
  * #L%
  */
 
+import com.github.theholywaffle.teamspeak3.api.LogLevel;
 import com.github.theholywaffle.teamspeak3.api.ServerInstanceProperty;
 import com.github.theholywaffle.teamspeak3.commands.parameter.KeyValueParam;
 
@@ -62,11 +63,23 @@ public final class ServerCommands {
 	}
 
 	public static Command logView(int lines, boolean instance) {
-		if (lines > 100) throw new IllegalArgumentException("Can only fetch up to 100 lines at once (" + lines + ")");
+		if (lines > 500) throw new IllegalArgumentException("Can only fetch up to 500 lines at once (" + lines + ")");
 
 		CommandBuilder builder = new CommandBuilder("logview", 2);
 		builder.addIf(lines > 0, new KeyValueParam("lines", lines));
 		builder.addIf(instance, new KeyValueParam("instance", 1));
+		return builder.build();
+	}
+
+	public static Command logAdd(LogLevel level, String message) {
+		if (level == null) throw new IllegalArgumentException("Log level cannot be null");
+		if (message == null || message.isEmpty()) {
+			throw new IllegalArgumentException("Log message must be a non-empty string");
+		}
+
+		CommandBuilder builder = new CommandBuilder("logadd", 2);
+		builder.add(new KeyValueParam("loglevel", level.getIndex()));
+		builder.add(new KeyValueParam("logmsg", message));
 		return builder.build();
 	}
 
