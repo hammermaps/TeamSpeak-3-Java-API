@@ -124,7 +124,10 @@ public class TS3Query {
 	public TS3Query(TS3Config config) {
 		this.config = config.freeze();
 		this.eventManager = new EventManager(this);
-		this.userThreadPool = Executors.newCachedThreadPool();
+		// Java 21: Virtual Threads für leichtgewichtige, I/O-intensive Aufgaben
+		this.userThreadPool = Executors.newThreadPerTaskExecutor(
+				Thread.ofVirtual().name("[TeamSpeak-3-Java-API] user-task-", 0).factory()
+		);
 		this.fileTransferHelper = new FileTransferHelper(config.getHost());
 		this.connectionHandler = config.getReconnectStrategy().create(config.getConnectionHandler());
 		this.globalQueue = CommandQueue.newGlobalQueue(this, connectionHandler instanceof DisconnectingConnectionHandler);
