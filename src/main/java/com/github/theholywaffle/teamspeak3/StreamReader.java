@@ -129,7 +129,7 @@ class StreamReader extends Thread {
 		// Filter out duplicate events for join, quit and channel move events
 		if (isDuplicate(event)) return;
 
-		String arr[] = event.split(" ", 2);
+		String[] arr = event.split(" ", 2);
 		ts3.getEventManager().fireEvent(arr[0], arr[1]);
 	}
 
