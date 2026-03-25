@@ -28,7 +28,7 @@ import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
-import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;
+import com.github.theholywaffle.teamspeak3.api.event.TS3Listener;
 import com.github.theholywaffle.teamspeak3.api.event.TS3EventType;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
@@ -61,7 +61,7 @@ public class ChatBotExample {
 		api.registerEvent(TS3EventType.TEXT_CHANNEL, 0);
 
 		// Register the event listener
-		api.addTS3Listeners(new TS3EventAdapter() {
+		api.addTS3Listeners(new TS3Listener() {
 
 			@Override
 			public void onTextMessage(TextMessageEvent e) {

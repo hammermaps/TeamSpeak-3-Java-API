@@ -31,7 +31,7 @@ import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.CommandFuture.SuccessListener;
 import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
 import com.github.theholywaffle.teamspeak3.api.event.ClientLeaveEvent;
-import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;
+import com.github.theholywaffle.teamspeak3.api.event.TS3Listener;
 import com.github.theholywaffle.teamspeak3.api.event.TS3EventType;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Channel;
 
@@ -93,7 +93,7 @@ public class TrollExample {
 		api.setNickname("Global Server Admin");
 
 		api.registerEvent(TS3EventType.SERVER);
-		api.addTS3Listeners(new TS3EventAdapter() {
+		api.addTS3Listeners(new TS3Listener() {
 
 			@Override
 			public void onClientJoin(ClientJoinEvent e) {

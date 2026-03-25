@@ -31,7 +31,7 @@ import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.ChannelProperty;
 import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
-import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;
+import com.github.theholywaffle.teamspeak3.api.event.TS3Listener;
 import com.github.theholywaffle.teamspeak3.api.event.TS3EventType;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import com.github.theholywaffle.teamspeak3.api.reconnect.ConnectionHandler;
@@ -110,7 +110,7 @@ public class ReconnectExample {
 
 		// On the API side of things, you only need to register your TS3Listeners once!
 		// These are not affected when the query disconnects.
-		api.addTS3Listeners(new TS3EventAdapter() {
+		api.addTS3Listeners(new TS3Listener() {
 
 			@Override
 			public void onTextMessage(TextMessageEvent e) {
