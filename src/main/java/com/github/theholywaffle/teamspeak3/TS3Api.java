@@ -366,6 +366,24 @@ public class TS3Api {
 	}
 
 	/**
+	 * Writes a custom entry into the virtual server's log (or the server instance log,
+	 * depending on permissions and whether a virtual server is selected).
+	 *
+	 * @param level
+	 * 		the log level / severity of the entry
+	 * @param message
+	 * 		the message text to write into the log
+	 *
+	 * @throws TS3CommandFailedException
+	 * 		if the execution of a command fails
+	 * @querycommands 1
+	 * @see LogLevel
+	 */
+	public void addLogEntry(LogLevel level, String message) {
+		asyncApi.addLogEntry(level, message).getUninterruptibly();
+	}
+
+	/**
 	 * Adds a specified permission to all server groups of the type specified by {@code type} on all virtual servers.
 	 *
 	 * @param type
@@ -2128,6 +2146,46 @@ public class TS3Api {
 	}
 
 	/**
+	 * Gets the database ID and nickname of a client by their unique identifier.
+	 * Uses the {@code clientgetnamefromuid} server query command.
+	 *
+	 * @param clientUId
+	 * 		the unique identifier of the client
+	 *
+	 * @return a {@link ClientNameInfo} containing the UID, database ID and nickname,
+	 *         or {@code null} if the command fails
+	 *
+	 * @throws TS3CommandFailedException
+	 * 		if the execution of a command fails
+	 * @querycommands 1
+	 * @see Client#getUniqueIdentifier()
+	 * @see ClientNameInfo
+	 */
+	public ClientNameInfo getClientNameByUId(String clientUId) {
+		return asyncApi.getClientNameByUId(clientUId).getUninterruptibly();
+	}
+
+	/**
+	 * Gets the unique identifier and nickname of a client by their database ID.
+	 * Uses the {@code clientgetnamefromdbid} server query command.
+	 *
+	 * @param clientDBId
+	 * 		the database ID of the client
+	 *
+	 * @return a {@link ClientNameInfo} containing the UID, database ID and nickname,
+	 *         or {@code null} if the command fails
+	 *
+	 * @throws TS3CommandFailedException
+	 * 		if the execution of a command fails
+	 * @querycommands 1
+	 * @see Client#getDatabaseId()
+	 * @see ClientNameInfo
+	 */
+	public ClientNameInfo getClientNameByDbId(int clientDBId) {
+		return asyncApi.getClientNameByDbId(clientDBId).getUninterruptibly();
+	}
+
+	/**
 	 * Gets a list of all permissions assigned to the specified client.
 	 *
 	 * @param clientDBId
@@ -2507,6 +2565,24 @@ public class TS3Api {
 	}
 
 	/**
+	 * Stops the running file transfer with the given server-side transfer ID.
+	 *
+	 * @param serverTransferId
+	 * 		the server-side ID of the file transfer to stop
+	 * @param delete
+	 * 		if {@code true}, the incomplete uploaded file will be deleted from the server
+	 *
+	 * @throws TS3CommandFailedException
+	 * 		if the execution of a command fails
+	 * @querycommands 1
+	 * @see FileTransfer#getServerTransferId()
+	 * @see #getFileTransfers()
+	 */
+	public void stopFileTransfer(int serverTransferId, boolean delete) {
+		asyncApi.stopFileTransfer(serverTransferId, delete).getUninterruptibly();
+	}
+
+	/**
 	 * Displays detailed configuration information about the server instance including
 	 * uptime, number of virtual servers online, traffic information, etc.
 	 *
@@ -2547,8 +2623,8 @@ public class TS3Api {
 	 * Fetches the specified amount of log entries from the server log.
 	 *
 	 * @param lines
-	 * 		the amount of log entries to fetch, in the range between 1 and 100.
-	 * 		Returns 100 entries if the argument is not in range
+	 * 		the amount of log entries to fetch, in the range between 1 and 500.
+	 * 		Returns 500 entries if the argument is not in range
 	 *
 	 * @return a list of the latest log entries
 	 *
@@ -2561,9 +2637,9 @@ public class TS3Api {
 	}
 
 	/**
-	 * Fetches the last 100 log entries from the server log.
+	 * Fetches the last 500 log entries from the server log.
 	 *
-	 * @return a list of up to 100 log entries
+	 * @return a list of up to 500 log entries
 	 *
 	 * @throws TS3CommandFailedException
 	 * 		if the execution of a command fails
@@ -2989,8 +3065,8 @@ public class TS3Api {
 	 * If no virtual server is selected, the entries will be read from the server log instead.
 	 *
 	 * @param lines
-	 * 		the amount of log entries to fetch, in the range between 1 and 100.
-	 * 		Returns 100 entries if the argument is not in range
+	 * 		the amount of log entries to fetch, in the range between 1 and 500.
+	 * 		Returns 500 entries if the argument is not in range
 	 *
 	 * @return a list of the latest log entries
 	 *
@@ -3003,10 +3079,10 @@ public class TS3Api {
 	}
 
 	/**
-	 * Fetches the last 100 log entries from the currently selected virtual server.
+	 * Fetches the last 500 log entries from the currently selected virtual server.
 	 * If no virtual server is selected, the entries will be read from the server log instead.
 	 *
-	 * @return a list of up to 100 log entries
+	 * @return a list of up to 500 log entries
 	 *
 	 * @throws TS3CommandFailedException
 	 * 		if the execution of a command fails
