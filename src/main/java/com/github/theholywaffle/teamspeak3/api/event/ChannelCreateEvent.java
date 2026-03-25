@@ -29,7 +29,7 @@ package com.github.theholywaffle.teamspeak3.api.event;
 import com.github.theholywaffle.teamspeak3.api.ChannelProperty;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Wrapper;
 
-public class ChannelCreateEvent extends BaseEvent {
+public final class ChannelCreateEvent extends BaseEvent {
 
 	public ChannelCreateEvent(Wrapper wrapper) {
 		super(wrapper);
