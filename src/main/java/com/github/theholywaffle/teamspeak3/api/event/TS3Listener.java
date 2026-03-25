@@ -27,38 +27,38 @@ package com.github.theholywaffle.teamspeak3.api.event;
  */
 
 /**
- * Interface used to listen to events from a TeamSpeak3 server.
- * <p><i>
- * Directly using this interface requires implementing all listener methods, even if you don't intend to use them.
- * Consider extending {@link TS3EventAdapter} instead.
- * </i></p>
+ * Interface zum Empfangen von Ereignissen eines TeamSpeak-3-Servers.
+ * <p>
+ * Alle Methoden haben {@code default}-Implementierungen (kein Rumpf),
+ * sodass nur die gewünschten Ereignisse überschrieben werden müssen.
+ * </p>
  *
  * @see com.github.theholywaffle.teamspeak3.TS3Api#addTS3Listeners(TS3Listener...)
  * @see com.github.theholywaffle.teamspeak3.TS3ApiAsync#addTS3Listeners(TS3Listener...)
  */
 public interface TS3Listener {
 
-	void onTextMessage(TextMessageEvent e);
+	default void onTextMessage(TextMessageEvent e) {}
 
-	void onClientJoin(ClientJoinEvent e);
+	default void onClientJoin(ClientJoinEvent e) {}
 
-	void onClientLeave(ClientLeaveEvent e);
+	default void onClientLeave(ClientLeaveEvent e) {}
 
-	void onServerEdit(ServerEditedEvent e);
+	default void onServerEdit(ServerEditedEvent e) {}
 
-	void onChannelEdit(ChannelEditedEvent e);
+	default void onChannelEdit(ChannelEditedEvent e) {}
 
-	void onChannelDescriptionChanged(ChannelDescriptionEditedEvent e);
+	default void onChannelDescriptionChanged(ChannelDescriptionEditedEvent e) {}
 
-	void onClientMoved(ClientMovedEvent e);
+	default void onClientMoved(ClientMovedEvent e) {}
 
-	void onChannelCreate(ChannelCreateEvent e);
+	default void onChannelCreate(ChannelCreateEvent e) {}
 
-	void onChannelDeleted(ChannelDeletedEvent e);
+	default void onChannelDeleted(ChannelDeletedEvent e) {}
 
-	void onChannelMoved(ChannelMovedEvent e);
+	default void onChannelMoved(ChannelMovedEvent e) {}
 
-	void onChannelPasswordChanged(ChannelPasswordChangedEvent e);
+	default void onChannelPasswordChanged(ChannelPasswordChangedEvent e) {}
 
-	void onPrivilegeKeyUsed(PrivilegeKeyUsedEvent e);
+	default void onPrivilegeKeyUsed(PrivilegeKeyUsedEvent e) {}
 }
