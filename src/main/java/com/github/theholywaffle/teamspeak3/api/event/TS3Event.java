@@ -26,7 +26,14 @@ package com.github.theholywaffle.teamspeak3.api.event;
  * #L%
  */
 
-public interface TS3Event {
+/**
+ * Sealed interface für alle TeamSpeak-3-Ereignisse.
+ * <p>
+ * Java 21: Durch {@code sealed} ist die vollständige Menge der Implementierungen
+ * bekannt – ideal für exhaustives Pattern Matching mit {@code switch}.
+ * </p>
+ */
+public sealed interface TS3Event permits BaseEvent {
 
 	void fire(TS3Listener listener);
 }
