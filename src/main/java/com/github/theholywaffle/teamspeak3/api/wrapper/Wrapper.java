@@ -30,6 +30,9 @@ import com.github.theholywaffle.teamspeak3.api.Property;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 /**
  * A wrapper class around a {@link Map}.
@@ -188,8 +191,8 @@ public class Wrapper {
 	 * @return the String value of the property or an empty String if the property doesn't exist
 	 */
 	public String get(String propertyName) {
-		final String result = map.get(propertyName);
-		return result != null ? result : "";
+		// Java 8+: Map.getOrDefault() statt manuellem null-Vergleich
+		return map.getOrDefault(propertyName, "");
 	}
 
 	/**
@@ -203,6 +206,52 @@ public class Wrapper {
 	 */
 	public String get(Property property) {
 		return get(property.getName());
+	}
+
+	/**
+	 * Gets a property as an {@link Optional} {@code String} from the underlying map.
+	 * Returns {@link Optional#empty()} if the property is absent or an empty string.
+	 * <p>
+	 * Java 21: {@code Optional}-basierte Alternative zu {@link #get(String)} um den
+	 * Umgang mit fehlenden Eigenschaften expliziter zu gestalten.
+	 * </p>
+	 *
+	 * @param propertyName the name of the property
+	 * @return an {@code Optional} containing the value, or empty if not present
+	 */
+	public Optional<String> getOptional(String propertyName) {
+		String value = get(propertyName);
+		return value.isEmpty() ? Optional.empty() : Optional.of(value);
+	}
+
+	/**
+	 * Gets a property as an {@link OptionalInt} from the underlying map.
+	 * Returns {@link OptionalInt#empty()} if the property is absent.
+	 * <p>
+	 * Java 21: {@code OptionalInt}-basierte Alternative zu {@link #getInt(String)}.
+	 * </p>
+	 *
+	 * @param propertyName the name of the property
+	 * @return an {@code OptionalInt} containing the value, or empty if not present
+	 */
+	public OptionalInt getOptionalInt(String propertyName) {
+		String value = get(propertyName);
+		return value.isEmpty() ? OptionalInt.empty() : OptionalInt.of(Integer.parseInt(value));
+	}
+
+	/**
+	 * Gets a property as an {@link OptionalLong} from the underlying map.
+	 * Returns {@link OptionalLong#empty()} if the property is absent.
+	 * <p>
+	 * Java 21: {@code OptionalLong}-basierte Alternative zu {@link #getLong(String)}.
+	 * </p>
+	 *
+	 * @param propertyName the name of the property
+	 * @return an {@code OptionalLong} containing the value, or empty if not present
+	 */
+	public OptionalLong getOptionalLong(String propertyName) {
+		String value = get(propertyName);
+		return value.isEmpty() ? OptionalLong.empty() : OptionalLong.of(Long.parseLong(value));
 	}
 
 	@Override
