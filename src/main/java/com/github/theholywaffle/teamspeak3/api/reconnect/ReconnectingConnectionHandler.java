@@ -32,6 +32,8 @@ import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedExce
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
+
 public class ReconnectingConnectionHandler implements ConnectionHandler {
 
 	private static final Logger log = LoggerFactory.getLogger(ReconnectingConnectionHandler.class);
@@ -70,7 +72,8 @@ public class ReconnectingConnectionHandler implements ConnectionHandler {
 
 		while (true) {
 			try {
-				Thread.sleep(timeout);
+				// Java 21: Thread.sleep(Duration) statt Thread.sleep(long)
+				Thread.sleep(Duration.ofMillis(timeout));
 			} catch (InterruptedException e) {
 				return;
 			}
