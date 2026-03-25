@@ -28,7 +28,7 @@ package com.github.theholywaffle.teamspeak3.api.event;
 
 import com.github.theholywaffle.teamspeak3.api.wrapper.Wrapper;
 
-public class ClientLeaveEvent extends BaseEvent {
+public final class ClientLeaveEvent extends BaseEvent {
 
 	public ClientLeaveEvent(Wrapper wrapper) {
 		super(wrapper);
