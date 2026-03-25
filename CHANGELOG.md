@@ -25,9 +25,23 @@ dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/lang/
 - `CustomPropertyAssignment` – neuer Wrapper für benutzerdefinierte Client-Eigenschaften
 - `Automatic-Module-Name: com.github.theholywaffle.teamspeak3` im JAR-Manifest für JPMS-Kompatibilität
 - Reproduzierbare Builds via `project.build.outputTimestamp` in `pom.xml`
+- `Wrapper.getOptional(String)` – `Optional<String>`-Getter als Alternative zu `get()` (gibt leer zurück statt `""`)
+- `Wrapper.getOptionalInt(String)` – `OptionalInt`-Getter als Alternative zu `getInt()` (gibt leer zurück statt `-1`)
+- `Wrapper.getOptionalLong(String)` – `OptionalLong`-Getter als Alternative zu `getLong()` (gibt leer zurück statt `-1`)
+- `TS3Listener` – alle Methoden haben nun `default`-Implementierungen (kein Rumpf); `TS3Listener` kann direkt implementiert werden ohne alle Methoden zu überschreiben
 
 ### Geändert
 - **Java-Version** auf 21 angehoben (Compiler-Source & Target)
+- **Virtual Threads (JEP 444):** `TS3Query` verwendet jetzt `Executors.newThreadPerTaskExecutor` mit `Thread.ofVirtual()` statt `newCachedThreadPool` – bessere Skalierbarkeit bei I/O-lastigen Aufgaben
+- **Sealed Classes (JEP 409):** `TS3Event` ist nun ein `sealed interface`, `BaseEvent` eine `sealed abstract class`; alle 12 konkreten Event-Typen sind `final` – die Event-Hierarchie ist zur Compilezeit vollständig bekannt und erlaubt exhaustives Pattern Matching mit `switch`
+- **Pattern Matching für `instanceof` (JEP 394):** `TS3ApiAsync.isQueryError` verwendet jetzt `instanceof TS3CommandFailedException cfe` ohne separaten Cast
+- **Switch-Expressions (JEP 361):** `TextMessageEvent.getTargetMode()` und `TS3Config.getQueryPort()` nutzen jetzt Switch-Expressions statt for-Schleifen bzw. if-else
+- **`Thread.sleep(Duration)`:** `ReconnectingConnectionHandler` verwendet die typsicherere `Thread.sleep(Duration.ofMillis(...))` Overload
+- **`String.formatted()`:** `TS3CommandFailedException.buildMessage` verwendet `String.formatted()` für den fixen Nachrichtenteil
+- **`Map.ofEntries()`:** `EventManager` initialisiert die Event-Map jetzt mit unveränderlichem `Map.ofEntries()` statt `HashMap` + `static`-Initializer
+- **`Map.getOrDefault()`:** `Wrapper.get(String)` nutzt `map.getOrDefault()` statt manuellem `null`-Vergleich
+- **`@Serial`-Annotation:** Alle `serialVersionUID`-Felder in den Exception-Klassen mit `@Serial` (JEP 260) annotiert
+- Array-Deklarationsstil in `StreamReader` von `String arr[]` auf `String[] arr` korrigiert
 - Abhängigkeiten aktualisiert:
   - `sshj` → `0.38.0`
   - `slf4j` → `2.0.16`
@@ -38,6 +52,13 @@ dieses Projekt orientiert sich an [Semantic Versioning](https://semver.org/lang/
   - `maven-shade-plugin` → `3.6.0`
   - `maven-source-plugin` → `3.3.1`
   - `maven-javadoc-plugin` → `3.11.2`
+
+### Entfernt
+- `TS3EventAdapter` – Klasse vollständig entfernt; `TS3Listener` direkt implementieren (alle Methoden haben `default`-Implementierungen)
+- `TS3Api.addClientPermission(int, String, int, boolean)` – veraltete String-basierte Überladung entfernt; `addClientPermission(int, IPermissionType, int, boolean)` verwenden
+- `TS3Api.deleteClientPermission(int, String)` – veraltete String-basierte Überladung entfernt; `deleteClientPermission(int, IPermissionType)` verwenden
+- `TS3ApiAsync.addClientPermission(int, String, int, boolean)` – veraltete String-basierte Überladung entfernt
+- `TS3ApiAsync.deleteClientPermission(int, String)` – veraltete String-basierte Überladung entfernt
 
 ---
 
