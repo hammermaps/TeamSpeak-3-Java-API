@@ -28,7 +28,7 @@ package com.github.theholywaffle.teamspeak3.api.event;
 
 import com.github.theholywaffle.teamspeak3.api.wrapper.Wrapper;
 
-public class ServerEditedEvent extends BaseEvent {
+public final class ServerEditedEvent extends BaseEvent {
 
 	public ServerEditedEvent(Wrapper wrapper) {
 		super(wrapper);
