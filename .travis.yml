@@ -1,6 +1,6 @@
-# Java 8
+# Java 21
 language: java
-jdk: openjdk8
+jdk: openjdk21
 
 # Cache Maven dependencies for faster builds and less spam in the logs
 cache:

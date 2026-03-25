@@ -49,9 +49,11 @@
 
 	<properties>
 		<encoding>UTF-8</encoding>
-		<sshj.version>0.35.0</sshj.version>
-		<slf4j.version>1.7.35</slf4j.version>
+		<sshj.version>0.38.0</sshj.version>
+		<slf4j.version>2.0.16</slf4j.version>
 		<junit4.version>4.13.2</junit4.version>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.outputTimestamp>1970-01-01T00:00:00Z</project.build.outputTimestamp>
 	</properties>
 
@@ -93,16 +95,16 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.9.0</version>
+				<version>3.13.0</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>21</source>
+					<target>21</target>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.2.2</version>
+				<version>3.4.2</version>
 				<configuration>
 					<archive>
 						<manifestEntries>
@@ -114,7 +116,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M5</version>
+				<version>3.5.2</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -177,7 +179,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-shade-plugin</artifactId>
-						<version>3.2.4</version>
+						<version>3.6.0</version>
 						<executions>
 							<execution>
 								<phase>package</phase>
@@ -216,7 +218,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>3.2.1</version>
+						<version>3.3.1</version>
 						<executions>
 							<execution>
 								<id>attach-sources</id>
@@ -229,9 +231,9 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.3.1</version>
+						<version>3.11.2</version>
 						<configuration>
-							<source>8</source>
+							<source>21</source>
 							<quiet>true</quiet>
 							<show>protected</show>
 							<linksource>true</linksource>
