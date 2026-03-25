@@ -150,6 +150,13 @@ public final class FileCommands {
 		return new CommandBuilder("ftlist").build();
 	}
 
+	public static Command ftStop(int serverTransferId, boolean delete) {
+		CommandBuilder builder = new CommandBuilder("ftstop", 2);
+		builder.add(new KeyValueParam("serverftfid", serverTransferId));
+		builder.add(new KeyValueParam("delete", delete));
+		return builder.build();
+	}
+
 	public static Command ftRenameFile(String oldPath, String newPath,
 	                                   int channelId, String channelPassword) {
 		if (oldPath == null) throw new IllegalArgumentException("Old file path cannot be null");
