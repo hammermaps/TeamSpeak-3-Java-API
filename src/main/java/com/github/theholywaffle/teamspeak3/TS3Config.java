@@ -109,12 +109,12 @@ public class TS3Config {
 	}
 
 	int getQueryPort() {
-		if (queryPort > 0) {
-			return queryPort;
-		} else {
-			// Query port not set by user, use default for chosen protocol
-			return protocol == Protocol.SSH ? 10022 : 10011;
-		}
+		if (queryPort > 0) return queryPort;
+		// Java 21: Switch-Expression – exhaustiv, kein default nötig
+		return switch (protocol) {
+			case SSH -> 10022;
+			case RAW -> 10011;
+		};
 	}
 
 	/**
