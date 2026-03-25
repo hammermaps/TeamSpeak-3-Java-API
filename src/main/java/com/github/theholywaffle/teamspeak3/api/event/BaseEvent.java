@@ -12,10 +12,10 @@ package com.github.theholywaffle.teamspeak3.api.event;
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,7 +30,20 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Wrapper;
 
 import java.util.Collections;
 
-public abstract class BaseEvent extends Wrapper implements TS3Event {
+/**
+ * Sealed Basisklasse für alle TeamSpeak-3-Ereignisse.
+ * <p>
+ * Java 21 (JEP 409): Durch {@code sealed} und die explizite {@code permits}-Liste ist die
+ * vollständige Event-Typhierarchie zur Compilezeit bekannt. Das ermöglicht
+ * exhaustives Pattern Matching mit {@code switch} ohne {@code default}-Zweig –
+ * der Compiler prüft Vollständigkeit automatisch.
+ * </p>
+ */
+public abstract sealed class BaseEvent extends Wrapper implements TS3Event
+		permits ChannelCreateEvent, ChannelDeletedEvent, ChannelDescriptionEditedEvent,
+		        ChannelEditedEvent, ChannelMovedEvent, ChannelPasswordChangedEvent,
+		        ClientJoinEvent, ClientLeaveEvent, ClientMovedEvent,
+		        PrivilegeKeyUsedEvent, ServerEditedEvent, TextMessageEvent {
 
 	protected BaseEvent(Wrapper wrapper) {
 		super(Collections.unmodifiableMap(wrapper.getMap()));
