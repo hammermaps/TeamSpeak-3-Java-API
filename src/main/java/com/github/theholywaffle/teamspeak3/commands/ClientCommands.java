@@ -63,6 +63,18 @@ public final class ClientCommands {
 		return new CommandBuilder("clientgetdbidfromuid", 1).add(new KeyValueParam("cluid", clientUId)).build();
 	}
 
+	public static Command clientGetNameFromUId(String clientUId) {
+		if (clientUId == null || clientUId.isEmpty()) {
+			throw new IllegalArgumentException("Client UId must be a non-empty string");
+		}
+
+		return new CommandBuilder("clientgetnamefromuid", 1).add(new KeyValueParam("cluid", clientUId)).build();
+	}
+
+	public static Command clientGetNameFromDbId(int clientDBId) {
+		return new CommandBuilder("clientgetnamefromdbid", 1).add(new KeyValueParam("cldbid", clientDBId)).build();
+	}
+
 	public static Command clientGetIds(String clientUId) {
 		if (clientUId == null || clientUId.isEmpty()) {
 			throw new IllegalArgumentException("Client UId must be a non-empty string");
