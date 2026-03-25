@@ -1,6 +1,5 @@
 TeamSpeak 3 Java API
 ====================
-[![Build Status](https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API/actions/workflows/maven.yml) [![Maven Central](https://img.shields.io/maven-central/v/com.github.theholywaffle/teamspeak3-api.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.theholywaffle%22%20a%3A%22teamspeak3-api%22) [![Javadocs](http://www.javadoc.io/badge/com.github.theholywaffle/teamspeak3-api.svg)](http://www.javadoc.io/doc/com.github.theholywaffle/teamspeak3-api)
 
 A Java wrapper of the [TeamSpeak 3](http://media.teamspeak.com/ts3_literature/TeamSpeak%203%20Server%20Query%20Manual.pdf) Server Query API
 
@@ -23,7 +22,7 @@ A Java wrapper of the [TeamSpeak 3](http://media.teamspeak.com/ts3_literature/Te
 
 - **Option 1 (Standalone Jar)**:
 
-    Download the [latest release](https://search.maven.org/remote_content?g=com.github.theholywaffle&a=teamspeak3-api&v=LATEST&c=with-dependencies) and add this jar to the buildpath of your project.
+    Download the [latest release](https://github.com/hammermaps/TeamSpeak-3-Java-API/releases/download/1.4.0/teamspeak3-api-1.4.0-SNAPSHOT.jar) and add this jar to the buildpath of your project.
 
 - **Option 2 (Build from Source)**:
 
