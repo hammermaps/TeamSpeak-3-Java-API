@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -46,21 +45,21 @@ import java.util.function.Function;
 class EventManager {
 
 	private static final Logger log = LoggerFactory.getLogger(EventManager.class);
-	private static final Map<String, Function<Wrapper, TS3Event>> eventByName = new HashMap<>(12);
-	static {
-		eventByName.put("notifytextmessage", TextMessageEvent::new);
-		eventByName.put("notifycliententerview", ClientJoinEvent::new);
-		eventByName.put("notifyclientleftview", ClientLeaveEvent::new);
-		eventByName.put("notifyserveredited", ServerEditedEvent::new);
-		eventByName.put("notifychanneledited", ChannelEditedEvent::new);
-		eventByName.put("notifychanneldescriptionchanged", ChannelDescriptionEditedEvent::new);
-		eventByName.put("notifyclientmoved", ClientMovedEvent::new);
-		eventByName.put("notifychannelcreated", ChannelCreateEvent::new);
-		eventByName.put("notifychanneldeleted", ChannelDeletedEvent::new);
-		eventByName.put("notifychannelmoved", ChannelMovedEvent::new);
-		eventByName.put("notifychannelpasswordchanged", ChannelPasswordChangedEvent::new);
-		eventByName.put("notifytokenused", PrivilegeKeyUsedEvent::new);
-	}
+	// Java 21: Unveränderliche Map mit Map.ofEntries() statt HashMap + static-Initializer
+	private static final Map<String, Function<Wrapper, TS3Event>> eventByName = Map.ofEntries(
+			Map.entry("notifytextmessage",             TextMessageEvent::new),
+			Map.entry("notifycliententerview",          ClientJoinEvent::new),
+			Map.entry("notifyclientleftview",           ClientLeaveEvent::new),
+			Map.entry("notifyserveredited",             ServerEditedEvent::new),
+			Map.entry("notifychanneledited",            ChannelEditedEvent::new),
+			Map.entry("notifychanneldescriptionchanged",ChannelDescriptionEditedEvent::new),
+			Map.entry("notifyclientmoved",              ClientMovedEvent::new),
+			Map.entry("notifychannelcreated",           ChannelCreateEvent::new),
+			Map.entry("notifychanneldeleted",           ChannelDeletedEvent::new),
+			Map.entry("notifychannelmoved",             ChannelMovedEvent::new),
+			Map.entry("notifychannelpasswordchanged",   ChannelPasswordChangedEvent::new),
+			Map.entry("notifytokenused",                PrivilegeKeyUsedEvent::new)
+	);
 
 	// CopyOnWriteArrayList for thread safety
 	private final Collection<ListenerTask> tasks = new CopyOnWriteArrayList<>();
