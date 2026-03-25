@@ -413,6 +413,27 @@ public class TS3ApiAsync {
 	}
 
 	/**
+	 * Writes a custom entry into the virtual server's log (or the server instance log,
+	 * depending on permissions and whether a virtual server is selected).
+	 *
+	 * @param level
+	 * 		the log level / severity of the entry
+	 * @param message
+	 * 		the message text to write into the log
+	 *
+	 * @return a future to track the progress of this command
+	 *
+	 * @throws TS3CommandFailedException
+	 * 		if the execution of a command fails
+	 * @querycommands 1
+	 * @see LogLevel
+	 */
+	public CommandFuture<Void> addLogEntry(LogLevel level, String message) {
+		Command cmd = ServerCommands.logAdd(level, message);
+		return executeAndReturnError(cmd);
+	}
+
+	/**
 	 * Adds a specified permission to all server groups of the type specified by {@code type} on all virtual servers.
 	 *
 	 * @param type
@@ -2412,6 +2433,46 @@ public class TS3ApiAsync {
 	}
 
 	/**
+	 * Gets the database ID and nickname of a client by their unique identifier.
+	 * Uses the {@code clientgetnamefromuid} server query command.
+	 *
+	 * @param clientUId
+	 * 		the unique identifier of the client
+	 *
+	 * @return a {@link ClientNameInfo} containing the UID, database ID and nickname
+	 *
+	 * @throws TS3CommandFailedException
+	 * 		if the execution of a command fails
+	 * @querycommands 1
+	 * @see Client#getUniqueIdentifier()
+	 * @see ClientNameInfo
+	 */
+	public CommandFuture<ClientNameInfo> getClientNameByUId(String clientUId) {
+		Command cmd = ClientCommands.clientGetNameFromUId(clientUId);
+		return executeAndTransformFirst(cmd, ClientNameInfo::new);
+	}
+
+	/**
+	 * Gets the unique identifier and nickname of a client by their database ID.
+	 * Uses the {@code clientgetnamefromdbid} server query command.
+	 *
+	 * @param clientDBId
+	 * 		the database ID of the client
+	 *
+	 * @return a {@link ClientNameInfo} containing the UID, database ID and nickname
+	 *
+	 * @throws TS3CommandFailedException
+	 * 		if the execution of a command fails
+	 * @querycommands 1
+	 * @see Client#getDatabaseId()
+	 * @see ClientNameInfo
+	 */
+	public CommandFuture<ClientNameInfo> getClientNameByDbId(int clientDBId) {
+		Command cmd = ClientCommands.clientGetNameFromDbId(clientDBId);
+		return executeAndTransformFirst(cmd, ClientNameInfo::new);
+	}
+
+	/**
 	 * Gets information about the client with the specified client ID.
 	 *
 	 * @param clientId
@@ -2866,6 +2927,27 @@ public class TS3ApiAsync {
 	}
 
 	/**
+	 * Stops the running file transfer with the given server-side transfer ID.
+	 *
+	 * @param serverTransferId
+	 * 		the server-side ID of the file transfer to stop
+	 * @param delete
+	 * 		if {@code true}, the incomplete uploaded file will be deleted from the server
+	 *
+	 * @return a future to track the progress of this command
+	 *
+	 * @throws TS3CommandFailedException
+	 * 		if the execution of a command fails
+	 * @querycommands 1
+	 * @see FileTransfer#getServerTransferId()
+	 * @see #getFileTransfers()
+	 */
+	public CommandFuture<Void> stopFileTransfer(int serverTransferId, boolean delete) {
+		Command cmd = FileCommands.ftStop(serverTransferId, delete);
+		return executeAndReturnError(cmd);
+	}
+
+	/**
 	 * Displays detailed configuration information about the server instance including
 	 * uptime, number of virtual servers online, traffic information, etc.
 	 *
@@ -2916,8 +2998,8 @@ public class TS3ApiAsync {
 	 * Fetches the specified amount of log entries from the server log.
 	 *
 	 * @param lines
-	 * 		the amount of log entries to fetch, in the range between 1 and 100.
-	 * 		Returns 100 entries if the argument is not in range
+	 * 		the amount of log entries to fetch, in the range between 1 and 500.
+	 * 		Returns 500 entries if the argument is not in range
 	 *
 	 * @return a list of the latest log entries
 	 *
@@ -2931,16 +3013,16 @@ public class TS3ApiAsync {
 	}
 
 	/**
-	 * Fetches the last 100 log entries from the server log.
+	 * Fetches the last 500 log entries from the server log.
 	 *
-	 * @return a list of up to 100 log entries
+	 * @return a list of up to 500 log entries
 	 *
 	 * @throws TS3CommandFailedException
 	 * 		if the execution of a command fails
 	 * @querycommands 1
 	 */
 	public CommandFuture<List<String>> getInstanceLogEntries() {
-		return getInstanceLogEntries(100);
+		return getInstanceLogEntries(500);
 	}
 
 	/**
@@ -3388,8 +3470,8 @@ public class TS3ApiAsync {
 	 * If no virtual server is selected, the entries will be read from the server log instead.
 	 *
 	 * @param lines
-	 * 		the amount of log entries to fetch, in the range between 1 and 100.
-	 * 		Returns 100 entries if the argument is not in range
+	 * 		the amount of log entries to fetch, in the range between 1 and 500.
+	 * 		Returns 500 entries if the argument is not in range
 	 *
 	 * @return a list of the latest log entries
 	 *
@@ -3403,17 +3485,17 @@ public class TS3ApiAsync {
 	}
 
 	/**
-	 * Fetches the last 100 log entries from the currently selected virtual server.
+	 * Fetches the last 500 log entries from the currently selected virtual server.
 	 * If no virtual server is selected, the entries will be read from the server log instead.
 	 *
-	 * @return a list of up to 100 log entries
+	 * @return a list of up to 500 log entries
 	 *
 	 * @throws TS3CommandFailedException
 	 * 		if the execution of a command fails
 	 * @querycommands 1
 	 */
 	public CommandFuture<List<String>> getVirtualServerLogEntries() {
-		return getVirtualServerLogEntries(100);
+		return getVirtualServerLogEntries(500);
 	}
 
 	/**
