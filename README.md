@@ -21,7 +21,34 @@ A Java wrapper of the [TeamSpeak 3](http://media.teamspeak.com/ts3_literature/Te
 
     Download the [latest release](https://search.maven.org/remote_content?g=com.github.theholywaffle&a=teamspeak3-api&v=LATEST&c=with-dependencies) and add this jar to the buildpath of your project.
 
-- **Option 2 (Maven)**: 
+- **Option 2 (Build from Source)**:
+
+    Requires **JDK 21+** and **Maven**. Clone the repository and use the included build script:
+
+    ```bash
+    # Projekt klonen
+    git clone https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API.git
+    cd TeamSpeak-3-Java-API
+    chmod +x build.sh
+
+    # Standard-JAR bauen
+    ./build.sh
+
+    # Fat-JAR inkl. aller Abhängigkeiten bauen
+    ./build.sh --full
+
+    # Build ohne Tests
+    ./build.sh --skip-tests
+
+    # Hilfe anzeigen
+    ./build.sh --help
+    ```
+
+    Die fertige JAR liegt anschließend unter `target/`:
+    - `target/teamspeak3-api-<version>.jar` – Standard-JAR
+    - `target/teamspeak3-api-<version>-with-dependencies.jar` – Fat-JAR (bei `--full`)
+
+- **Option 3 (Maven)**:
 
     Add the following to your pom.xml:
 
