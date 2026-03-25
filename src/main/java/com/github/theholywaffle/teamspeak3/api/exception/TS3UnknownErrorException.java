@@ -1,5 +1,7 @@
 package com.github.theholywaffle.teamspeak3.api.exception;
 
+import java.io.Serial;
+
 /*
  * #%L
  * TeamSpeak 3 Java API
@@ -28,6 +30,7 @@ package com.github.theholywaffle.teamspeak3.api.exception;
 
 public class TS3UnknownErrorException extends TS3Exception {
 
+	@Serial
 	private static final long serialVersionUID = -8458508268312921713L;
 
 	public TS3UnknownErrorException(String error) {
