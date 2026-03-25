@@ -29,7 +29,7 @@ package com.github.theholywaffle.teamspeak3.api.event;
 import com.github.theholywaffle.teamspeak3.api.PrivilegeKeyType;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Wrapper;
 
-public class PrivilegeKeyUsedEvent extends BaseEvent {
+public final class PrivilegeKeyUsedEvent extends BaseEvent {
 
 	public PrivilegeKeyUsedEvent(Wrapper wrapper) {
 		super(wrapper);
