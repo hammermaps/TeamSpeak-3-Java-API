@@ -29,20 +29,20 @@ package com.github.theholywaffle.teamspeak3.api.event;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Wrapper;
 
-public class TextMessageEvent extends BaseEvent {
+public final class TextMessageEvent extends BaseEvent {
 
 	public TextMessageEvent(Wrapper wrapper) {
 		super(wrapper);
 	}
 
 	public TextMessageTargetMode getTargetMode() {
-		int mode = getInt("targetmode");
-		for (TextMessageTargetMode m : TextMessageTargetMode.values()) {
-			if (m.getIndex() == mode) {
-				return m;
-			}
-		}
-		return null;
+		// Java 21: Switch-Expression statt for-Schleife
+		return switch (getInt("targetmode")) {
+			case 1 -> TextMessageTargetMode.CLIENT;
+			case 2 -> TextMessageTargetMode.CHANNEL;
+			case 3 -> TextMessageTargetMode.SERVER;
+			default -> null;
+		};
 	}
 
 	public String getMessage() {
