@@ -29,7 +29,7 @@ package com.github.theholywaffle.teamspeak3.api.event;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Channel;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Wrapper;
 
-public class ClientMovedEvent extends BaseEvent {
+public final class ClientMovedEvent extends BaseEvent {
 
 	public ClientMovedEvent(Wrapper wrapper) {
 		super(wrapper);
